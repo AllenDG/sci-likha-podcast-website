@@ -1,6 +1,7 @@
 // src/components/layout/MainLayout.tsx
 import { Outlet } from "react-router-dom";
 import MainNavbar from "@/components/shared/MainNavbar";
+import FooterLayout from "./FooterLayout";
 
 const MainLayout = () => {
   return (
@@ -25,10 +26,9 @@ const MainLayout = () => {
         </div>
       </main>
 
-      {/* ---------- FOOTER ---------- */}
-      <footer className="bg-gray-200 text-center py-4 text-sm text-gray-600">
-        © {new Date().getFullYear()} Dormitory. All rights reserved.
-      </footer>
+     <div> 
+      <FooterLayout/>
+     </div>
     </div>
   );
 };
