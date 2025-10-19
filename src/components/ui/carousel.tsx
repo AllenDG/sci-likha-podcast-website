@@ -172,7 +172,7 @@ export default function Carousel({ slides }: CarouselProps) {
     }
   };
 
-  const id = useId();
+  const id = useId() as string;
 
   return (
     <div

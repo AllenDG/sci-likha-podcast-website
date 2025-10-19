@@ -22,6 +22,7 @@ const EpisodeSection = () => {
   const [sortBy, setSortBy] = useState("latest");
 
   // Sample episode data - replace with your actual data
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const episodes: Episode[] = [
     {
       id: 1,
