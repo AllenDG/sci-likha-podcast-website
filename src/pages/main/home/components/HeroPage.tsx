@@ -40,7 +40,8 @@ const HeroPage = ({ scrollY }: HeroPageProps) => {
         </p>
         <Button
           size="lg"
-          className="bg-white/90 hover:bg-white text-gray-900 px-8 py-6 text-lg rounded-md shadow-2xl transition-all hover:scale-105 backdrop-blur-sm"
+          className="text-white px-8 py-6 text-lg rounded-md shadow-2xl hover:scale-105 transition-all duration-300"
+          style={{ backgroundColor: "#163409" }}
         >
           Learn More
         </Button>
