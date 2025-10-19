@@ -8,8 +8,21 @@ const MainLayout = () => {
       <MainNavbar />
 
       {/* ---------- MAIN CONTENT ---------- */}
-      <main className="flex-1 container mx-auto px-6 py-10">
-        <Outlet /> {/* Nested routes: HomePage, AboutPage, ContentPage */}
+      <main
+        className="flex-1 relative min-h-screen w-full overflow-y-auto bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/src/assets/images/background-sci-likha.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Optional overlay for better readability — remove if not needed */}
+        <div className="absolute inset-0 bg-black/30"></div>
+
+        {/* Content Layer */}
+        <div className="relative z-10 container mx-auto px-6 py-10">
+          <Outlet /> {/* Nested routes: HomePage, AboutPage, ContentPage */}
+        </div>
       </main>
 
       {/* ---------- FOOTER ---------- */}
