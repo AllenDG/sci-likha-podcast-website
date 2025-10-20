@@ -20,7 +20,7 @@ const ContentManagement = lazy(
   () => import("@/pages/admin/content-management/ContentManagement")
 );
 const AnnouncementManagement = lazy(
-  () => import("@/pages/admin/announcement-management/AnnouncementManagement")
+  () => import("@/pages/admin/announcement-management/AnnouncementManagementPage")
 );
 const Login = lazy(() => import("@/pages/shared/LoginPage"));
 const NotFound = lazy(() => import("@/pages/shared/NotFoundPage"));
