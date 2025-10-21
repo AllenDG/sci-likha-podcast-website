@@ -51,7 +51,7 @@ const ContentManagementPage = () => {
     if (!window.confirm("Are you sure you want to delete this content post?")) return;
 
     try {
-      await crud.delete(`/v1/content-posts/delete-post/${id}`);
+      await crud.delete(`/v1/content/delete-post/${id}`);
       fetchContent();
     } catch (err) {
       const axiosError = err as AxiosError<{ message?: string }>;
