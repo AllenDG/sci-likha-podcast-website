@@ -44,12 +44,19 @@ const ContentManagementPage = () => {
 
   const handleEdit = (id: string) => {
     console.log("Edit item:", id);
-    // Implement edit logic
+    // Implement edit logic - Alaws ka namang edit modal pre haha
   };
 
-  const handleDelete = (id: string) => {
-    if (window.confirm("Are you sure you want to delete this item?")) {
-      setContentData(contentData.filter((item) => item.id !== id));
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Are you sure you want to delete this content post?")) return;
+
+    try {
+      await crud.delete(`/v1/content-posts/delete-post/${id}`);
+      fetchContent();
+    } catch (err) {
+      const axiosError = err as AxiosError<{ message?: string }>;
+      console.error(axiosError.response?.data?.message || "Delete failed");
+      alert("Failed to delete content post.");
     }
   };
 
