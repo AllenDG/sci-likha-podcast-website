@@ -44,7 +44,7 @@ const ContentTable = ({
       filtered = filtered.filter(
         (item) =>
           item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.episodeId.includes(searchQuery) ||
+          item.episode_id.includes(searchQuery) ||
           item.category.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
@@ -56,11 +56,11 @@ const ContentTable = ({
     const sorted = [...filtered].sort((a, b) => {
       if (sortBy === "latest") {
         return (
-          new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
       } else if (sortBy === "oldest") {
         return (
-          new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime()
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
         );
       } else if (sortBy === "title") {
         return a.title.localeCompare(b.title);
@@ -142,7 +142,7 @@ const ContentTable = ({
                 <td className="px-6 py-5">
                   <div className="flex items-center">
                     <span className="text-xs font-semibold text-gray-900 bg-gray-100 px-3 py-2 rounded-full whitespace-nowrap">
-                      {item.episodeId}
+                      {item.episode_id}
                     </span>
                   </div>
                 </td>
@@ -160,7 +160,7 @@ const ContentTable = ({
                 </td>
                 <td className="px-6 py-5">
                   <div className="text-sm text-gray-600 whitespace-nowrap">
-                    {item.releaseDate}
+                    {item.created_at}
                   </div>
                 </td>
                 <td className="px-6 py-5">

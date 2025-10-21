@@ -1,20 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddContentModal from "./components/AddContentModal";
 import ContentHeader from "./components/ContentHeader";
 import ContentTable from "./components/ContentTable";
+import { crud } from "../../../../api/index";
+import { AxiosError } from "axios";
 
 export interface ContentItem {
   id: string;
-  episodeId: string;
+  episode_id: string;
   title: string;
   category: string;
-  releaseDate: string;
-  text: string;
+  created_at: string;
   description?: string;
-  tags?: string[];
-  assessmentUrl?: string;
-  createdBy?: string;
-  imageUrl?: string;
+  content?: string; // Url of video or gallery
+  created_by?: string;
   type: "episode" | "gallery";
 }
 
@@ -26,30 +25,22 @@ const ContentManagementPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Sample data - replace with actual API data
-  const [contentData, setContentData] = useState<ContentItem[]>([
-    {
-      id: "1",
-      episodeId: "123456789",
-      title: "Accumsan pen atibus ultricies",
-      category: "General Biology",
-      releaseDate: "09/30/2025",
-      text: "Cell Text",
-      description: "Introduction to cell biology and structures",
-      tags: ["cells", "biology", "science"],
-      assessmentUrl: "https://example.com/assessment1",
-      type: "episode",
-    },
-    // Add more sample data as needed
-  ]);
+  const [contentData, setContentData] = useState<ContentItem[]>([]);
 
-  const handleAddContent = (newContent: Omit<ContentItem, "id">) => {
-    const newItem: ContentItem = {
-      ...newContent,
-      id: Date.now().toString(),
-    };
-    setContentData([newItem, ...contentData]);
-    setIsModalOpen(false);
+  const fetchContent = async () => {
+    try {
+      const response = await crud.get<ContentItem[]>("/v1/content/get-all-contents");
+      setContentData(response);
+    } catch (err) {
+      const axiosError = err as AxiosError<{ message?: string }>;
+      console.error(axiosError.response?.data?.message || "Failed to fetch content data.");
+    }
   };
+
+  // --- FETCH CONTENT DATA ---
+  useEffect(() => {
+    fetchContent();
+  }, []);
 
   const handleEdit = (id: string) => {
     console.log("Edit item:", id);
@@ -95,7 +86,7 @@ const ContentManagementPage = () => {
         <AddContentModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onSubmit={handleAddContent}
+          onSubmit={fetchContent}
         />
       </div>
     </div>
