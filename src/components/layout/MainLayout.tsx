@@ -2,6 +2,7 @@
 import { Outlet } from "react-router-dom";
 import MainNavbar from "@/components/shared/MainNavbar";
 import FooterLayout from "./FooterLayout";
+import background from "@/assets/images/background-sci-likha.png";
 
 const MainLayout = () => {
   return (
@@ -12,7 +13,7 @@ const MainLayout = () => {
       <main
         className="flex-1 relative min-h-screen w-full overflow-y-auto bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/src/assets/images/background-sci-likha.png')",
+          backgroundImage: `url(${background})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
