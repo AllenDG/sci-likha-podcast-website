@@ -1,8 +1,6 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
-import { crud } from "../../../../../api/index"; // adjust path
-import { AxiosError } from "axios";
 
 interface ContentPost {
   id: number;
@@ -18,25 +16,14 @@ const LatestVideo = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [videos, setVideos] = useState<ContentPost[]>([]);
 
-  const fetchVideos = async () => {
-    try {
-      const response = await crud.get<ContentPost[]>("/v1/content/get-all-contents");
-      const posts = response || [];
-
-      // Sort by created_at descending and take latest 4
-      const latestPosts = posts
-        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-        .slice(0, 4);
-
-      setVideos(latestPosts);
-    } catch (err) {
-      const axiosError = err as AxiosError<{ message?: string }>;
-      console.error(axiosError.response?.data.message || axiosError.message);
-    }
-  };
-
   useEffect(() => {
-    fetchVideos();
+    // Load from localStorage first
+    const savedVideos = localStorage.getItem("latestVideos");
+    if (savedVideos) {
+      const parsedVideos: ContentPost[] = JSON.parse(savedVideos);
+      setVideos(parsedVideos);
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
