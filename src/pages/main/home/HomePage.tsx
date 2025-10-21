@@ -13,6 +13,7 @@ interface ContentPost {
   content: string | null;
   created_at: string;
   description: string | null;
+  created_by: string | null;
 }
 
 const HomePage = () => {
