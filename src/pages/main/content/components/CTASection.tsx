@@ -1,10 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 import { Headphones, BookOpen, Share2 } from "lucide-react";
+import { crud } from "../../../../../api/index"; // make sure this path is correct
+import { AxiosError } from "axios";
 
 const CTASection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -27,6 +30,22 @@ const CTASection = () => {
       }
     };
   }, []);
+
+  const handleSubscribe = async () => {
+    if (!email) return alert("Please enter your email.");
+
+    try {
+      await crud.create("/v1/registered-emails/register", { email });
+      localStorage.setItem("subscribedEmail", email);
+      alert("Subscribed successfully!");
+      setEmail(""); // clear input
+    } catch (err) {
+      const axiosError = err as AxiosError<{ message?: string }>;
+      alert(
+        axiosError.response?.data.message || "Something went wrong. Please try again."
+      );
+    }
+  };
 
   return (
     <section
@@ -125,9 +144,12 @@ const CTASection = () => {
               <input
                 type="email"
                 placeholder="Enter your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 px-4 py-3 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50"
               />
               <Button
+                onClick={handleSubscribe}
                 className="text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition-transform duration-300 whitespace-nowrap"
                 style={{ backgroundColor: "#163409" }}
               >
