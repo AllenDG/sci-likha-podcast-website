@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import background from "../../assets/images/background-sci-likha.png";
+import { crud } from "../../../api/index";
+import { AxiosError } from "axios";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,27 +12,36 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Submitting login form");
+    setError("");
 
-    // Fake Credentials
-    const validEmail = "admin@gmail.com";
-    const validPassword = "admin123";
-
-    if (email === validEmail && password === validPassword) {
-      // Store user to localStorage
-      const userData = {
-        email,
-        role: "admin",
-        token: "fake-jwt-token"
+    try {
+      const response = await crud.create("/v1/auth/login", { email, password }) as {
+        email?: string;
+        password?: string;
       };
 
-      localStorage.setItem("user", JSON.stringify(userData));
-      
-      // Redirect to Admin Dashboard
-      window.location.href = "/admin";
-    } else {
-      setError("Invalid email or password");
+      if (response) {
+        const userData = {
+          email: response?.email || email,
+          token: response?.password,
+          role: "admin",
+        };
+
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        // Redirect to dashboard
+        window.location.href = "/admin";
+      } else {
+        setError("Invalid login response. Please try again.");
+      }
+    } catch (err) {
+      const axiosError = err as AxiosError<{ message?: string }>;
+      const message =
+        axiosError.response?.data?.message || "Invalid email or password.";
+      setError(message);
     }
   };
 

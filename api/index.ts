@@ -1,6 +1,7 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios from "axios";
+import type { AxiosInstance, AxiosRequestConfig } from "axios";
 
-const baseURL = process.env.API_BASE_URL || "https://localhost:3000/"; // Ensure this environment variable is set - Jobbers
+const baseURL = "https://content-publish-services.onrender.com"; // Ensure this environment variable is set - Jobbers
 
 const api: AxiosInstance = axios.create({
   baseURL,
@@ -10,12 +11,12 @@ const api: AxiosInstance = axios.create({
 });
 
 export const crud = {
-  get: async <TResponse>(endpoint: string, config?: AxiosRequestConfig): Promise<TResponse> => {
+  get: async <TResponse = unknown>(endpoint: string, config?: AxiosRequestConfig): Promise<TResponse> => {
     const { data } = await api.get<TResponse>(endpoint, config);
     return data;
   },
 
-  create: async <TRequest, TResponse>(
+  create: async <TRequest = unknown, TResponse = unknown>(
     endpoint: string,
     payload: TRequest,
     config?: AxiosRequestConfig
@@ -24,7 +25,7 @@ export const crud = {
     return data;
   },
 
-  update: async <TRequest, TResponse>(
+  update: async <TRequest = unknown, TResponse = unknown>(
     endpoint: string,
     payload: TRequest,
     config?: AxiosRequestConfig
@@ -33,7 +34,7 @@ export const crud = {
     return data;
   },
 
-  delete: async <TResponse>(endpoint: string, config?: AxiosRequestConfig): Promise<TResponse> => {
+  delete: async <TResponse = unknown>(endpoint: string, config?: AxiosRequestConfig): Promise<TResponse> => {
     const { data } = await api.delete<TResponse>(endpoint, config);
     return data;
   },
