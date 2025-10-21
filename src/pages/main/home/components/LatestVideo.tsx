@@ -1,12 +1,42 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
+import { crud } from "../../../../../api/index"; // adjust path
+import { AxiosError } from "axios";
+
+interface ContentPost {
+  id: number;
+  title: string | null;
+  category: string | null;
+  content: string | null;
+  created_at: string;
+  description: string | null;
+}
 
 const LatestVideo = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const [videos, setVideos] = useState<ContentPost[]>([]);
+
+  const fetchVideos = async () => {
+    try {
+      const response = await crud.get<ContentPost[]>("/v1/content/get-all-contents");
+      const posts = response || [];
+
+      // Sort by created_at descending and take latest 4
+      const latestPosts = posts
+        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+        .slice(0, 4);
+
+      setVideos(latestPosts);
+    } catch (err) {
+      const axiosError = err as AxiosError<{ message?: string }>;
+      console.error(axiosError.response?.data.message || axiosError.message);
+    }
+  };
 
   useEffect(() => {
+    fetchVideos();
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -28,32 +58,25 @@ const LatestVideo = () => {
     };
   }, []);
 
-  const videos = [
-    {
-      id: 1,
-      title: "Introduction to Cell Biology",
-      category: "Cell Biology",
-      date: "October 15, 2025",
-    },
-    {
-      id: 2,
-      title: "Photosynthesis Explained",
-      category: "Plant Biology",
-      date: "October 12, 2025",
-    },
-    {
-      id: 3,
-      title: "Energy and Metabolism",
-      category: "Biochemistry",
-      date: "October 10, 2025",
-    },
-    {
-      id: 4,
-      title: "Understanding Biodiversity",
-      category: "Ecology",
-      date: "October 8, 2025",
-    },
-  ];
+  function getVideoThumbnail(url: string | undefined) {
+    if (!url) return "/default-video-thumbnail.jpg";
+
+    // YouTube
+    const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=)([\w-]+)/);
+    if (ytMatch) return `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+
+    // Google Drive
+    const gdMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (gdMatch) return `https://drive.google.com/uc?export=thumbnail&id=${gdMatch[1]}`;
+
+    // OneDrive (simplified, best-effort)
+    if (url.includes("1drv.ms") || url.includes("onedrive.live.com")) {
+      return url; // OneDrive thumbnail extraction is limited on frontend
+    }
+
+    // fallback
+    return "/default-video-thumbnail.jpg";
+  }
 
   return (
     <section
@@ -85,16 +108,18 @@ const LatestVideo = () => {
             >
               <Card className="overflow-hidden shadow-lg border border-white/20 bg-white/10 backdrop-blur-md hover:shadow-2xl hover:bg-white/15 transition-all duration-300 hover:-translate-y-2">
                 <CardContent className="p-0">
-                  <div className="aspect-video bg-white/20 backdrop-blur-sm flex items-center justify-center group cursor-pointer border-b border-white/20">
-                    <div className="w-16 h-16 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg border border-white/40">
-                      <svg
-                        className="w-8 h-8 text-white ml-1"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
+                  {/* Thumbnail */}
+                  <div className="aspect-video bg-white/20 backdrop-blur-sm flex items-center justify-center border-b border-white/20 rounded-lg overflow-hidden">
+                    <img
+                      src={getVideoThumbnail(video.content ?? undefined)}
+                      alt={video.title ?? "Video Thumbnail"}
+                      className="object-cover w-full h-full"
+                      loading="lazy"
+                      onError={(e) => {
+                        // fallback if thumbnail fails
+                        (e.currentTarget as HTMLImageElement).src = "/default-video-thumbnail.jpg";
+                      }}
+                    />
                   </div>
                 </CardContent>
                 <CardFooter className="flex flex-col items-start p-4 gap-2">
@@ -105,7 +130,7 @@ const LatestVideo = () => {
                     {video.title}
                   </h3>
                   <p className="text-xs text-white/60 drop-shadow">
-                    {video.date}
+                    {video.created_at}
                   </p>
                   <Button
                     variant="default"
