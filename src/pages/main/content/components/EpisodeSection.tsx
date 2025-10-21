@@ -1,83 +1,72 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { crud } from "../../../../../api/index"; // make sure this path is correct
+import { AxiosError } from "axios";
 
 interface Episode {
   id: number;
   title: string;
   description: string;
   category: string;
-  tags: string[];
-  duration: string;
+  content: string;
   date: string;
-  thumbnail: string;
+}
+
+interface ContentPost {
+  id: number;
+  title: string | null;
+  description: string | null;
+  content: string | null; // the URL
+  created_at: string;
+  category: string | null;
+  episode_id: string | null;
+  type: string | null;
+  assessment_url?: string | null;
 }
 
 const EpisodeSection = () => {
+  const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedTag, setSelectedTag] = useState("all");
   const [sortBy, setSortBy] = useState("latest");
 
-  // Sample episode data - replace with your actual data
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const episodes: Episode[] = [
-    {
-      id: 1,
-      title: "Introduction to Cell Biology",
-      description:
-        "Explore the fundamental units of life, from prokaryotic bacteria to complex eukaryotic cells with specialized organelles.",
-      category: "Cell Biology",
-      tags: ["Cells", "Prokaryotes", "Eukaryotes"],
-      duration: "45:30",
-      date: "2024-10-15",
-      thumbnail: "",
-    },
-    {
-      id: 2,
-      title: "Photosynthesis and Energy",
-      description:
-        "Discover how plants convert light energy into chemical energy through light-dependent and independent reactions.",
-      category: "Plant Biology",
-      tags: ["Photosynthesis", "Energy", "Chloroplasts"],
-      duration: "38:20",
-      date: "2024-10-10",
-      thumbnail: "",
-    },
-    {
-      id: 3,
-      title: "Cellular Respiration",
-      description:
-        "Learn about glycolysis, Krebs cycle, and electron transport chain in ATP production and energy metabolism.",
-      category: "Metabolism",
-      tags: ["Respiration", "ATP", "Mitochondria"],
-      duration: "52:15",
-      date: "2024-10-05",
-      thumbnail: "",
-    },
-    {
-      id: 4,
-      title: "Biodiversity and Classification",
-      description:
-        "Understanding Earth's variety of life from bacteria to complex organisms and taxonomic classification systems.",
-      category: "Ecology",
-      tags: ["Biodiversity", "Taxonomy", "Evolution"],
-      duration: "41:45",
-      date: "2024-09-30",
-      thumbnail: "",
-    },
-  ];
+  const fetchEpisodes = async () => {
+    try {
+      const response = await crud.get<ContentPost[]>("/v1/content/get-all-contents");
+      const posts = response || [];
+
+      const data: Episode[] = await Promise.all(
+        posts.map(async (post) => {
+          return {
+            id: post.id,
+            title: post.title ?? "--",
+            description: post.description ?? "--",
+            category: post.category ?? "--",
+            content: post.content ?? "--",
+            date: post.created_at, // created_at from DB
+          };
+        })
+      );
+      
+      setEpisodes(data);
+    } catch (err) {
+      const axiosError = err as AxiosError<{ message?: string }>;
+      console.error(axiosError.response?.data.message || axiosError.message);
+    }
+  };
+
+  // Fetch episodes from API
+  useEffect(() => {
+    fetchEpisodes();
+  }, []);
 
   // Get unique categories and tags
   const categories = [
     "all",
     ...Array.from(new Set(episodes.map((ep) => ep.category))),
-  ];
-  const allTags = [
-    "all",
-    ...Array.from(new Set(episodes.flatMap((ep) => ep.tags))),
   ];
 
   // Filter and sort episodes
@@ -96,10 +85,6 @@ const EpisodeSection = () => {
       filtered = filtered.filter((ep) => ep.category === selectedCategory);
     }
 
-    if (selectedTag !== "all") {
-      filtered = filtered.filter((ep) => ep.tags.includes(selectedTag));
-    }
-
     const sorted = [...filtered].sort((a, b) => {
       if (sortBy === "latest") {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -112,7 +97,7 @@ const EpisodeSection = () => {
     });
 
     return sorted;
-  }, [episodes, searchQuery, selectedCategory, selectedTag, sortBy]);
+  }, [episodes, searchQuery, selectedCategory, sortBy]);
 
   return (
     <section className="relative py-20 px-4 text-white overflow-hidden">
@@ -157,23 +142,6 @@ const EpisodeSection = () => {
               ))}
             </select>
 
-            {/* Tag Filter */}
-            <select
-              value={selectedTag}
-              onChange={(e) => setSelectedTag(e.target.value)}
-              className="px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-white/50 text-white"
-            >
-              {allTags.map((tag) => (
-                <option
-                  key={tag}
-                  value={tag}
-                  className="bg-gray-800 text-white"
-                >
-                  {tag === "all" ? "All Tags" : tag}
-                </option>
-              ))}
-            </select>
-
             {/* Sort By */}
             <select
               value={sortBy}
@@ -209,17 +177,73 @@ const EpisodeSection = () => {
               >
                 <CardContent className="p-0">
                   <div className="grid md:grid-cols-3 gap-6 p-6">
-                    {/* Thumbnail */}
-                    <div className="aspect-video bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center border border-white/30">
-                      <div className="w-20 h-20 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center group cursor-pointer hover:scale-110 transition-transform duration-300 shadow-lg border border-white/40">
-                        <svg
-                          className="w-10 h-10 text-white ml-1"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </div>
+                    {/* Video / Thumbnail */}
+                    <div className="aspect-video bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center border border-white/30 overflow-hidden">
+                      {episode.content ? (
+                        (() => {
+                          const url = episode.content;
+
+                          // YouTube
+                          if (url.includes("youtube.com") || url.includes("youtu.be")) {
+                            const videoIdMatch = url.match(
+                              /(?:youtube\.com\/.*v=|youtu\.be\/)([\w-]+)/
+                            );
+                            const videoId = videoIdMatch ? videoIdMatch[1] : "";
+                            const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                            return (
+                              <iframe
+                                className="w-full h-full rounded-lg"
+                                src={embedUrl}
+                                title={episode.title}
+                                allowFullScreen
+                              />
+                            );
+                          }
+
+                          // Google Drive
+                          if (url.includes("drive.google.com")) {
+                            const fileIdMatch = url.match(/[-\w]{25,}/);
+                            const fileId = fileIdMatch ? fileIdMatch[0] : "";
+                            const embedUrl = `https://drive.google.com/uc?export=preview&id=${fileId}`;
+                            return (
+                              <iframe
+                                className="w-full h-full rounded-lg"
+                                src={embedUrl}
+                                title={episode.title}
+                                allowFullScreen
+                              />
+                            );
+                          }
+
+                          // OneDrive
+                          if (url.includes("onedrive.live.com")) {
+                            const residMatch = url.match(/resid=([^&]+)/);
+                            const embedUrl = residMatch
+                              ? `https://onedrive.live.com/download?resid=${residMatch[1]}`
+                              : url;
+                            return (
+                              <video
+                                className="w-full h-full rounded-lg"
+                                src={embedUrl}
+                                controls
+                              />
+                            );
+                          }
+
+                          // Fallback / Direct video URL
+                          return <video className="w-full h-full rounded-lg" src={url} controls />;
+                        })()
+                      ) : (
+                        <div className="w-20 h-20 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center group cursor-pointer hover:scale-110 transition-transform duration-300 shadow-lg border border-white/40">
+                          <svg
+                            className="w-10 h-10 text-white ml-1"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      )}
                     </div>
 
                     {/* Content */}
@@ -229,9 +253,6 @@ const EpisodeSection = () => {
                           <span className="text-xs font-semibold text-white bg-white/20 backdrop-blur-sm px-2 py-1 rounded border border-white/30">
                             Episode {episode.id}
                           </span>
-                          <span className="text-xs text-white/70">
-                            {episode.duration}
-                          </span>
                         </div>
                         <h3 className="text-xl font-bold text-white mb-2 drop-shadow">
                           {episode.title}
@@ -239,19 +260,6 @@ const EpisodeSection = () => {
                         <p className="text-white/80 text-sm mb-3 line-clamp-2 drop-shadow">
                           {episode.description}
                         </p>
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          <span className="text-xs bg-white/20 backdrop-blur-sm text-white px-2 py-1 rounded border border-white/30">
-                            {episode.category}
-                          </span>
-                          {episode.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-xs bg-white/15 backdrop-blur-sm text-white/90 px-2 py-1 rounded border border-white/20"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-white/70 drop-shadow">
