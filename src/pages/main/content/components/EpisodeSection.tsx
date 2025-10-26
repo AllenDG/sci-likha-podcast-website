@@ -1,10 +1,11 @@
-import { useState, useMemo, useEffect } from "react";
-import { Search } from "lucide-react";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { Search, Music, Play, Pause } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { crud } from "../../../../../api/index"; // make sure this path is correct
+import { crud } from "../../../../../api/index";
 import { AxiosError } from "axios";
+import { episodeData } from "@/assets/others/episodeDAta";
 
 interface Episode {
   id: number;
@@ -19,7 +20,7 @@ interface ContentPost {
   id: number;
   title: string | null;
   description: string | null;
-  content: string | null; // the URL
+  content: string | null;
   created_at: string;
   category: string | null;
   episode_id: string | null;
@@ -32,44 +33,65 @@ const EpisodeSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("latest");
+  const [nowPlaying, setNowPlaying] = useState<Episode | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const fetchEpisodes = async () => {
     try {
-      const response = await crud.get<ContentPost[]>("/v1/content/get-all-contents");
+      const response = await crud.get<ContentPost[]>(
+        "/v1/content/get-all-contents"
+      );
       const posts = response || [];
 
-      const data: Episode[] = await Promise.all(
-        posts.map(async (post) => {
-          return {
-            id: post.id,
-            title: post.title ?? "--",
-            description: post.description ?? "--",
-            category: post.category ?? "--",
-            content: post.content ?? "--",
-            date: post.created_at, // created_at from DB
-          };
-        })
-      );
-      
-      setEpisodes(data);
+      if (posts.length === 0) {
+        const localEpisodes: Episode[] = episodeData.map((ep) => ({
+          id: ep.id,
+          title: ep.title,
+          description: ep.description,
+          category: ep.category,
+          content: ep.content,
+          date: ep.created_at,
+        }));
+        setEpisodes(localEpisodes);
+        return;
+      }
+
+      const apiEpisodes: Episode[] = posts.map((post) => ({
+        id: post.id,
+        title: post.title ?? "--",
+        description: post.description ?? "--",
+        category: post.category ?? "--",
+        content: post.content ?? "",
+        date: post.created_at,
+      }));
+
+      setEpisodes(apiEpisodes);
     } catch (err) {
       const axiosError = err as AxiosError<{ message?: string }>;
       console.error(axiosError.response?.data.message || axiosError.message);
+
+      const localEpisodes: Episode[] = episodeData.map((ep) => ({
+        id: ep.id,
+        title: ep.title,
+        description: ep.description,
+        category: ep.category,
+        content: ep.content,
+        date: ep.created_at,
+      }));
+      setEpisodes(localEpisodes);
     }
   };
 
-  // Fetch episodes from API
   useEffect(() => {
     fetchEpisodes();
   }, []);
 
-  // Get unique categories and tags
   const categories = [
     "all",
     ...Array.from(new Set(episodes.map((ep) => ep.category))),
   ];
 
-  // Filter and sort episodes
   const filteredEpisodes = useMemo(() => {
     let filtered = episodes;
 
@@ -99,6 +121,35 @@ const EpisodeSection = () => {
     return sorted;
   }, [episodes, searchQuery, selectedCategory, sortBy]);
 
+  const handlePlay = (episode: Episode) => {
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause();
+      currentAudioRef.current.currentTime = 0;
+    }
+
+    const newAudio = new Audio(episode.content);
+    newAudio.play();
+    currentAudioRef.current = newAudio;
+    setNowPlaying(episode);
+    setIsPlaying(true);
+
+    newAudio.onended = () => {
+      setIsPlaying(false);
+      setNowPlaying(null);
+    };
+  };
+
+  const togglePlayback = () => {
+    if (!currentAudioRef.current) return;
+
+    if (isPlaying) {
+      currentAudioRef.current.pause();
+    } else {
+      currentAudioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
   return (
     <section className="relative py-20 px-4 text-white overflow-hidden">
       <div className="max-w-6xl mx-auto">
@@ -113,7 +164,6 @@ const EpisodeSection = () => {
         {/* Filters */}
         <div className="bg-white/10 backdrop-blur-md rounded-xl shadow-lg p-6 mb-8 border border-white/20">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60" />
               <Input
@@ -125,7 +175,6 @@ const EpisodeSection = () => {
               />
             </div>
 
-            {/* Category Filter */}
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
@@ -142,7 +191,6 @@ const EpisodeSection = () => {
               ))}
             </select>
 
-            {/* Sort By */}
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
@@ -177,76 +225,15 @@ const EpisodeSection = () => {
               >
                 <CardContent className="p-0">
                   <div className="grid md:grid-cols-3 gap-6 p-6">
-                    {/* Video / Thumbnail */}
                     <div className="aspect-video bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center border border-white/30 overflow-hidden">
-                      {episode.content ? (
-                        (() => {
-                          const url = episode.content;
-
-                          // YouTube
-                          if (url.includes("youtube.com") || url.includes("youtu.be")) {
-                            const videoIdMatch = url.match(
-                              /(?:youtube\.com\/.*v=|youtu\.be\/)([\w-]+)/
-                            );
-                            const videoId = videoIdMatch ? videoIdMatch[1] : "";
-                            const embedUrl = `https://www.youtube.com/embed/${videoId}`;
-                            return (
-                              <iframe
-                                className="w-full h-full rounded-lg"
-                                src={embedUrl}
-                                title={episode.title}
-                                allowFullScreen
-                              />
-                            );
-                          }
-
-                          // Google Drive
-                          if (url.includes("drive.google.com")) {
-                            const fileIdMatch = url.match(/[-\w]{25,}/);
-                            const fileId = fileIdMatch ? fileIdMatch[0] : "";
-                            const embedUrl = `https://drive.google.com/uc?export=preview&id=${fileId}`;
-                            return (
-                              <iframe
-                                className="w-full h-full rounded-lg"
-                                src={embedUrl}
-                                title={episode.title}
-                                allowFullScreen
-                              />
-                            );
-                          }
-
-                          // OneDrive
-                          if (url.includes("onedrive.live.com")) {
-                            const residMatch = url.match(/resid=([^&]+)/);
-                            const embedUrl = residMatch
-                              ? `https://onedrive.live.com/download?resid=${residMatch[1]}`
-                              : url;
-                            return (
-                              <video
-                                className="w-full h-full rounded-lg"
-                                src={embedUrl}
-                                controls
-                              />
-                            );
-                          }
-
-                          // Fallback / Direct video URL
-                          return <video className="w-full h-full rounded-lg" src={url} controls />;
-                        })()
-                      ) : (
-                        <div className="w-20 h-20 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center group cursor-pointer hover:scale-110 transition-transform duration-300 shadow-lg border border-white/40">
-                          <svg
-                            className="w-10 h-10 text-white ml-1"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </div>
-                      )}
+                      <Button
+                        onClick={() => handlePlay(episode)}
+                        className="text-white bg-[#163409] hover:bg-[#1b3e0d] rounded-md px-4 py-2"
+                      >
+                        ▶ Play Episode
+                      </Button>
                     </div>
 
-                    {/* Content */}
                     <div className="md:col-span-2 flex flex-col justify-between">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
@@ -290,6 +277,27 @@ const EpisodeSection = () => {
           )}
         </div>
       </div>
+
+      {/* Now Playing Bar */}
+      {nowPlaying && (
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[90%] md:w-[60%] bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 flex items-center justify-between px-5 py-3 text-white animate-fade-in">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-200/20 rounded-full flex items-center justify-center">
+              <Music className="text-blue-300" size={22} />
+            </div>
+            <div>
+              <p className="text-xs text-white/60">Now Playing</p>
+              <h4 className="text-sm font-semibold">{nowPlaying.title}</h4>
+            </div>
+          </div>
+          <Button
+            onClick={togglePlayback}
+            className="rounded-full w-10 h-10 flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 transition"
+          >
+            {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+          </Button>
+        </div>
+      )}
     </section>
   );
 };
