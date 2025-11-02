@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Dna, Sun, Microscope, Leaf } from "lucide-react";
+import { Dna, Microscope, Atom, Leaf } from "lucide-react";
 
 const MissionVisionSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -15,7 +15,6 @@ const MissionVisionSection = () => {
 
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
@@ -23,27 +22,27 @@ const MissionVisionSection = () => {
   const topics = [
     {
       icon: Dna,
-      title: "Cell Biology",
+      title: "Selyula 101 — Overview of the Beginning of Life",
       description:
-        "Explore cells—the smallest units of life—from prokaryotes to eukaryotes, understanding their structures and metabolic functions.",
-    },
-    {
-      icon: Sun,
-      title: "Photosynthesis",
-      description:
-        "Discover how plants convert light energy into chemical bonds, producing sugars and oxygen through light-dependent and independent reactions.",
+        "Alamin ang pinagmulan ng mga selula at kung paano nagsimula ang buhay. Tuklasin din ang mga siyentipikong nagbigay-linaw sa mga teoryang bumuo sa ating pag-unawa tungkol sa buhay.",
     },
     {
       icon: Microscope,
-      title: "Energy & Metabolism",
+      title: "SelTalk — Parts and Functions of the Cell",
       description:
-        "Learn about aerobic respiration, glycolysis, and how organisms harvest energy from molecules through enzyme-mediated reactions.",
+        "Talakayin ang iba't ibang bahagi ng selula at ang kani-kanilang mahahalagang tungkulin sa pagpapanatili ng buhay at kalusugan ng mga organismo.",
+    },
+    {
+      icon: Atom,
+      title: "Microscope Diaries — Plasma Membrane and Animal Cell Parts",
+      description:
+        "Suriin ang papel ng plasma membrane bilang tagapangalaga ng selula at tuklasin ang mga pangunahing bahagi ng animal cell na gumagawa ng bawat proseso ng buhay.",
     },
     {
       icon: Leaf,
-      title: "Biodiversity",
+      title: "Likas na Selyula — Cell Cycle and Cell Division",
       description:
-        "Understand Earth's incredible variety of life, from bacteria and archaea to complex multicellular organisms across all kingdoms.",
+        "Unawain ang pagkakasunod-sunod ng mga pangyayari sa loob ng isang selula na nagreresulta sa paghahati nito—isang mahalagang proseso para sa paglaki at pagpapanibago ng buhay.",
     },
   ];
 
@@ -60,11 +59,12 @@ const MissionVisionSection = () => {
           }`}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">
-            What We Cover
+            Episodes Overview
           </h2>
           <p className="text-xl text-white/90 max-w-3xl mx-auto drop-shadow">
-            From molecular biology to ecosystems, explore the fascinating world
-            of life sciences.
+            Tuklasin ang apat na kapana-panabik na episodes ng Sci-Likha na
+            naglalayong palawakin ang iyong pag-unawa sa pinagmulan, istruktura,
+            at siklo ng buhay ng mga selula.
           </p>
         </div>
 

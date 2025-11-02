@@ -22,9 +22,10 @@ const episodeData: EpisodeData[] = [
   {
     id: 1,
     episode_id: "EP001",
-    title: "Introduction to Podcasting",
-    description: "Getting started with your first podcast",
-    category: "Tutorial",
+    title: "Selyula 101 — Overview of the Beginning of Life",
+    description:
+      "Ang episode na ito ay ginawa upang mas maunawaan ninyo ang pinagmulan ng mga selula, kung paano nagsimula ang buhay, at kung sinu-sino ang mga siyentipikong nasa likod ng teoryang ito.",
+    category: "Biology",
     content: episodeOne,
     created_at: "02/11/2025",
     type: "episode",
@@ -32,9 +33,10 @@ const episodeData: EpisodeData[] = [
   {
     id: 2,
     episode_id: "EP002",
-    title: "Advanced Audio Editing",
-    description: "Tips and tricks for professional audio",
-    category: "Tutorial",
+    title: "SelTalk — Parts and Functions of the Cell",
+    description:
+      "Sa episode na ito, ating aalamin ang iba’t ibang bahagi ng selula at ang kani-kaniyang mahahalagang tungkulin.",
+    category: "Biology",
     content: episodeTwo,
     created_at: "02/11/2025",
     type: "episode",
@@ -42,9 +44,10 @@ const episodeData: EpisodeData[] = [
   {
     id: 3,
     episode_id: "EP003",
-    title: "Growing Your Audience",
-    description: "Marketing strategies for podcasters",
-    category: "Marketing",
+    title: "Microscope Diaries — Plasma Membrane and Animal Cell Parts",
+    description:
+      "Sa episode na ito, pag-uusapan natin ang papel ng plasma membrane at ang mga pangunahing bahagi ng animal cell.",
+    category: "Biology",
     content: episodeThree,
     created_at: "02/11/2025",
     type: "episode",
@@ -52,9 +55,10 @@ const episodeData: EpisodeData[] = [
   {
     id: 4,
     episode_id: "EP004",
-    title: "Monetization Methods",
-    description: "How to earn from your podcast",
-    category: "Business",
+    title: "Likas na Selyula — Cell Cycle and Cell Division",
+    description:
+      "Ang episode na ito ay ginawa upang mas maunawaan ninyo ang pagkakasunod-sunod ng mga pangyayari sa loob ng isang selula na nauuwi sa paghahati nito.",
+    category: "Biology",
     content: episodeFour,
     created_at: "02/11/2025",
     type: "episode",

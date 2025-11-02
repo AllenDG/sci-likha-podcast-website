@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Parallax } from "react-parallax";
+
 
 const SecondContentSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -71,14 +71,7 @@ const SecondContentSection = () => {
           >
             <Card className="overflow-hidden border-none bg-transparent">
               <CardContent className="p-0">
-                <Parallax
-                  bgImage="/assets/images/background-sci-likha.png"
-                  strength={200}
-                >
-                  <div className="aspect-video flex items-center justify-center">
-                    <div className="w-full h-full object-cover"></div>
-                  </div>
-                </Parallax>
+               
               </CardContent>
             </Card>
           </div>

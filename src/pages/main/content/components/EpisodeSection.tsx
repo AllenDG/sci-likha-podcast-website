@@ -33,9 +33,9 @@ const EpisodeSection = () => {
   const localEpisodes: Episode[] = [
     {
       id: 1,
-      title: "EP 1 — Overview of the Beginning of Life",
+      title: "EP 1 — Selyula 101: Overview of the Beginning of Life",
       description:
-        "Discover how life begins at the cellular level in this engaging first episode.",
+        "Ang episode na ito ay ginawa upang mas maunawaan ninyo ang pinagmulan ng mga selula, kung paano nagsimula ang buhay, at kung sinu-sino ang mga siyentipikong nasa likod ng teoryang ito.",
       category: "Biology",
       content: episodeOne,
       date: "2025-10-01",
@@ -43,9 +43,9 @@ const EpisodeSection = () => {
     },
     {
       id: 2,
-      title: "EP 2 — Selyula 101: A Deeper Dive",
+      title: "EP 2 — SelTalk: Parts and Functions of the Cell",
       description:
-        "Continue exploring the structure and significance of cells in living organisms.",
+        "Sa episode na ito, ating aalamin ang iba’t ibang bahagi ng selula at ang kani-kaniyang mahahalagang tungkulin.",
       category: "Biology",
       content: episodeTwo,
       date: "2025-10-05",
@@ -53,20 +53,21 @@ const EpisodeSection = () => {
     },
     {
       id: 3,
-      title: "EP 3 — SelTalk: Parts and Functions of the Cell",
+      title:
+        "EP 3 — Microscope Diaries: Plasma Membrane and Animal Cell Parts",
       description:
-        "Understand the critical parts of a cell and their respective functions in detail.",
-      category: "Science",
+        "Sa episode na ito, pag-uusapan natin ang papel ng plasma membrane at ang mga pangunahing bahagi ng animal cell.",
+      category: "Biology",
       content: episodeThree,
       date: "2025-10-10",
       assessmentLink: "https://example.com/assessment/episode3",
     },
     {
       id: 4,
-      title: "EP 4 — Likas na Selyula: Cell Cycle & Division",
+      title: "EP 4 — Likas na Selyula: Cell Cycle and Cell Division",
       description:
-        "Learn about the process of cell growth, division, and replication.",
-      category: "Science",
+        "Ang episode na ito ay ginawa upang mas maunawaan ninyo ang pagkakasunod-sunod ng mga pangyayari sa loob ng isang selula na nauuwi sa paghahati nito.",
+      category: "Biology",
       content: episodeFour,
       date: "2025-10-15",
       assessmentLink: "https://example.com/assessment/episode4",

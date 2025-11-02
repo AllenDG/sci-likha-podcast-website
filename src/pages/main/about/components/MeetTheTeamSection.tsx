@@ -1,5 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
-import { Linkedin, Mail } from "lucide-react";
+import cath from "@/assets/images/d446e5d1-a51d-4782-a36a-4601493beec7.jpg";
+import venice from "@/assets/images/305772a6-ef88-4052-af1a-a009b95d1ec6.jpg";
+import ramm from "@/assets/images/9d7d9d5c-3510-4245-860e-83f0e9d9140a.jpg";
+import cjay from "@/assets/images/2b66ade8-2655-44c2-9d3d-7337b519f496.jpg";
 
 const MeetTheTeamSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -15,7 +19,6 @@ const MeetTheTeamSection = () => {
 
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
@@ -24,22 +27,22 @@ const MeetTheTeamSection = () => {
     {
       name: "Catherine Castillano",
       role: "Lead Researcher & Host",
-      image: "/assets/images/team/catherine.jpg",
+      image: cath,
     },
     {
       name: "Cjay Sarmiento",
-      role: "Content Creator & Editor",
-      image: "/assets/images/team/cjay.jpg",
+      role: "Host",
+      image: cjay,
     },
     {
       name: "Ramm Angelo Poblete",
-      role: "Technical Producer",
-      image: "/assets/images/team/ramm.jpg",
+      role: "Editor & Host",
+      image: ramm,
     },
     {
       name: "Venice Lajato",
-      role: "Community Manager",
-      image: "/assets/images/team/venice.jpg",
+      role: "Technical Producer & Host",
+      image: venice,
     },
   ];
 
@@ -77,39 +80,17 @@ const MeetTheTeamSection = () => {
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               <div className="bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:bg-white/15 transition-all duration-300 hover:-translate-y-2 border border-white/20">
-                {/* Avatar */}
-                <div className="aspect-square bg-white/20 backdrop-blur-sm relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-32 h-32 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg border-2 border-white/40">
-                      <span className="text-5xl font-bold text-white drop-shadow-lg">
-                        {member.name.charAt(0)}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Overlay on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-                    <div className="flex gap-3">
-                      <a
-                        href="#"
-                        className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors border border-white/30"
-                        aria-label="LinkedIn"
-                      >
-                        <Linkedin className="w-5 h-5 text-white" />
-                      </a>
-                      <a
-                        href="#"
-                        className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors border border-white/30"
-                        aria-label="Email"
-                      >
-                        <Mail className="w-5 h-5 text-white" />
-                      </a>
-                    </div>
-                  </div>
+                {/* Avatar with image */}
+                <div className="aspect-square bg-white/10 relative overflow-hidden">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
                 </div>
 
                 {/* Content */}
-                <div className="p-6">
+                <div className="p-6 text-center">
                   <h3 className="text-xl font-bold text-white mb-1 drop-shadow">
                     {member.name}
                   </h3>
