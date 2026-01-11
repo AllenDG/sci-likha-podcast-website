@@ -2,10 +2,16 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 import { Play, Pause, Music } from "lucide-react";
-import episodeOne from "@/assets/others/EP1_-Selyula-101-—-Overview-of-the-Beginning-of-Life-Made-with-Clipchamp.mp3";
-import episodeTwo from "@/assets/others/EP-2_-Selyula-101-—-Overview-of-the-Beginning-of-Life.mp3";
-import episodeThree from "@/assets/others/EP-3_-SelTalk-—-Parts-and-Functions-of-the-Cell-Made-with-Clipchamp.mp3";
-import episodeFour from "@/assets/others/EP-4_-Likas-na-Selyula_-Cell-Cycle-and-Cell-Division.mp3";
+
+import ep1Thumbnail from "@/assets/images/sci-likha-ep-1.jpg";
+import ep2Thumbnail from "@/assets/images/sci-likha-ep-2.jpg";
+import ep3Thumbnail from "@/assets/images/sci-likha-ep-3.jpg";
+import ep4Thumbnail from "@/assets/images/sci-likha-ep-4.jpg";
+
+import ep1Audio from "@/assets/others/EP_1_ANG_EBOLUSYON_NG_ANYONG-BUHAY_SA_KASAYSAYAN_NG_MUNDO.mp3";
+import ep2Audio from "@/assets/others/EP_2_ANG_MEKANISMO_NG_EBOLUSYON_PAGHUBOG_NG_BUHAY_SA_BAWAT_NILALANG_SA_MUNDO.mp3";
+import ep3Audio from "@/assets/others/EP_3_MGA_BAKAS_NG_PAGBABAGO__ANG_EBOLUSYON_NG_BUHAY_MULA_SA_MGA_NINUNO.mp3";
+import ep4Audio from "@/assets/others/EP_4_EVOLUTION_101_ANG_KASAYSAYAN_NG_EBOLUSYON.mp3";
 
 interface EpisodeData {
   id: number;
@@ -16,72 +22,75 @@ interface EpisodeData {
   content: string;
   created_at: string;
   type: "episode";
+  thumbnail: string;
 }
 
 const episodeData: EpisodeData[] = [
   {
     id: 1,
     episode_id: "EP001",
-    title: "Selyula 101 — Overview of the Beginning of Life",
+    title: "Ang Ebolusyon ng Anyong-Buhay sa Kasaysayan ng Mundo",
     description:
-      "Ang episode na ito ay ginawa upang mas maunawaan ninyo ang pinagmulan ng mga selula, kung paano nagsimula ang buhay, at kung sinu-sino ang mga siyentipikong nasa likod ng teoryang ito.",
-    category: "Biology",
-    content: episodeOne,
-    created_at: "02/11/2025",
+      "Tuklasin kung paano nag-evolve ang mga buhay na organismo mula sa simpleng porma hanggang sa mga komplikadong nilalang na umiiral ngayon.",
+    category: "Evolution",
+    content: ep1Audio,
+    created_at: "Enero 2025",
     type: "episode",
+    thumbnail: ep1Thumbnail,
   },
   {
     id: 2,
     episode_id: "EP002",
-    title: "SelTalk — Parts and Functions of the Cell",
+    title: "Ang Mekanismo ng Ebolusyon: Paghubog ng Buhay sa Bawat Nilalang",
     description:
-      "Sa episode na ito, ating aalamin ang iba’t ibang bahagi ng selula at ang kani-kaniyang mahahalagang tungkulin.",
-    category: "Biology",
-    content: episodeTwo,
-    created_at: "02/11/2025",
+      "Alamin ang mga mekanismo tulad ng natural selection, genetic drift, at mutation na humuhubog sa ebolusyon ng mga species.",
+    category: "Evolution",
+    content: ep2Audio,
+    created_at: "Enero 2025",
     type: "episode",
+    thumbnail: ep2Thumbnail,
   },
   {
     id: 3,
     episode_id: "EP003",
-    title: "Microscope Diaries — Plasma Membrane and Animal Cell Parts",
+    title: "Mga Bakas ng Pagbabago: Ang Ebolusyon mula sa mga Ninuno",
     description:
-      "Sa episode na ito, pag-uusapan natin ang papel ng plasma membrane at ang mga pangunahing bahagi ng animal cell.",
-    category: "Biology",
-    content: episodeThree,
-    created_at: "02/11/2025",
+      "Suriin ang mga ebidensya ng ebolusyon mula sa fossil records, comparative anatomy, at molecular biology na nagpapatunay ng pagbabago sa mga species.",
+    category: "Evolution",
+    content: ep3Audio,
+    created_at: "Enero 2025",
     type: "episode",
+    thumbnail: ep3Thumbnail,
   },
   {
     id: 4,
     episode_id: "EP004",
-    title: "Likas na Selyula — Cell Cycle and Cell Division",
+    title: "Evolution 101: Ang Kasaysayan ng Ebolusyon—Kung Saan ang Ideya ay Naging Buhay",
     description:
-      "Ang episode na ito ay ginawa upang mas maunawaan ninyo ang pagkakasunod-sunod ng mga pangyayari sa loob ng isang selula na nauuwi sa paghahati nito.",
-    category: "Biology",
-    content: episodeFour,
-    created_at: "02/11/2025",
+      "Kilalanin ang mga siyentipikong nag-ambag sa teorya ng ebolusyon, mula kay Charles Darwin hanggang sa mga modernong evolutionary biologists.",
+    category: "Evolution",
+    content: ep4Audio,
+    created_at: "Enero 2025",
     type: "episode",
+    thumbnail: ep4Thumbnail,
   },
 ];
 
 const LatestVideo = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const [episodes, setEpisodes] = useState<EpisodeData[]>([]);
+  const [episodes] = useState<EpisodeData[]>(episodeData);
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(
     null
   );
   const [nowPlaying, setNowPlaying] = useState<EpisodeData | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const duration = 40; // fixed 40 seconds
+  const [duration, setDuration] = useState(0);
 
   const stopTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    setEpisodes(episodeData);
-
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.1 }
@@ -94,6 +103,11 @@ const LatestVideo = () => {
   }, []);
 
   const handlePlay = (episode: EpisodeData) => {
+    if (!episode.content) {
+      alert("Audio file not available yet. Coming soon!");
+      return;
+    }
+
     if (currentAudio) {
       currentAudio.pause();
       currentAudio.currentTime = 0;
@@ -103,16 +117,12 @@ const LatestVideo = () => {
     const audio = new Audio(episode.content);
 
     audio.ontimeupdate = () => setCurrentTime(audio.currentTime);
+    audio.onloadedmetadata = () => setDuration(audio.duration);
 
     audio
       .play()
       .then(() => {
-        stopTimerRef.current = setTimeout(() => {
-          audio.pause();
-          audio.currentTime = 0;
-          setIsPlaying(false);
-          setNowPlaying(null);
-        }, 40000);
+        // No auto-stop timer, let the audio play fully
       })
       .catch((error) => {
         console.error("Playback failed:", error);
@@ -125,6 +135,7 @@ const LatestVideo = () => {
       if (stopTimerRef.current) clearTimeout(stopTimerRef.current);
       setIsPlaying(false);
       setNowPlaying(null);
+      setCurrentTime(0);
     };
 
     setCurrentAudio(audio);
@@ -141,6 +152,7 @@ const LatestVideo = () => {
   };
 
   const formatTime = (time: number) => {
+    if (!isFinite(time)) return "0:00";
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60)
       .toString()
@@ -160,7 +172,7 @@ const LatestVideo = () => {
           }`}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
-            Latest Episodes
+            Mga Pinakabagong Episodes
           </h2>
           <div className="w-24 h-1 bg-white/50 mt-4" />
         </div>
@@ -176,10 +188,20 @@ const LatestVideo = () => {
               }`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
-              <Card className="overflow-hidden shadow-lg border border-white/20 bg-white/10 backdrop-blur-md hover:shadow-2xl hover:bg-white/15 transition-all duration-300 hover:-translate-y-2">
+              <Card className="overflow-hidden shadow-lg border border-white/20 bg-white/10 backdrop-blur-md hover:shadow-2xl hover:bg-white/15 transition-all duration-300 hover:-translate-y-2 h-full">
                 <CardContent className="p-0">
-                  <div className="aspect-video bg-white/20 flex items-center justify-center border-b border-white/20 text-center text-white/80 text-sm p-4">
-                    🎧 {episode.title}
+                  <div className="aspect-video relative overflow-hidden border-b border-white/20">
+                    <img
+                      src={episode.thumbnail}
+                      alt={episode.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute bottom-2 right-2 bg-black/70 backdrop-blur-sm px-2 py-1 rounded-md">
+                      <p className="text-xs text-white/90 font-semibold">
+                        Episode {episode.id}
+                      </p>
+                    </div>
                   </div>
                 </CardContent>
                 <CardFooter className="flex flex-col items-start p-4 gap-2">
@@ -189,7 +211,10 @@ const LatestVideo = () => {
                   <h3 className="text-sm font-semibold text-white line-clamp-2 drop-shadow">
                     {episode.title}
                   </h3>
-                  <p className="text-xs text-white/60 drop-shadow">
+                  <p className="text-xs text-white/60 drop-shadow line-clamp-2">
+                    {episode.description}
+                  </p>
+                  <p className="text-xs text-white/60 drop-shadow mt-1">
                     {episode.created_at}
                   </p>
                   <Button
@@ -199,7 +224,7 @@ const LatestVideo = () => {
                     className="w-full mt-2 text-white rounded-md hover:scale-105 transition-transform duration-300"
                     style={{ backgroundColor: "#163409" }}
                   >
-                    ▶ Play Episode
+                    ▶ Pakinggan
                   </Button>
                 </CardFooter>
               </Card>
@@ -218,7 +243,7 @@ const LatestVideo = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-[11px] text-white/60 uppercase tracking-wide">
-                  Now Playing
+                  Kasalukuyang Tumutugtog
                 </span>
                 <h4 className="text-sm font-semibold truncate max-w-[240px] md:max-w-[340px]">
                   {nowPlaying.title}
@@ -242,11 +267,9 @@ const LatestVideo = () => {
             <div className="relative w-full h-2 bg-white/20 rounded-full overflow-hidden">
               <div
                 className="absolute top-0 left-0 h-full bg-gradient-to-r from-green-600 to-green-800 transition-all duration-300"
-                style={{ width: `${(currentTime / duration) * 100}%` }}
+                style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
               />
             </div>
-
-           
           </div>
         </div>
       )}

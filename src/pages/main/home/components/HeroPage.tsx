@@ -36,14 +36,14 @@ const HeroPage = ({ scrollY }: HeroPageProps) => {
           Sci-Likha Podcast
         </h1>
         <p className="text-lg md:text-xl text-white mb-8 max-w-2xl mx-auto drop-shadow-lg">
-          Discover stories from the heart of nature
+          Tuklasin ang kahanga-hangang mundo ng ebolusyon at mga prosesong bumubuo sa buhay
         </p>
         <Button
           size="lg"
           className="text-white px-8 py-6 text-lg rounded-md shadow-2xl hover:scale-105 transition-all duration-300"
           style={{ backgroundColor: "#163409" }}
         >
-          Learn More
+          Makinig Ngayon
         </Button>
       </div>
 

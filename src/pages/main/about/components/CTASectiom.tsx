@@ -35,12 +35,12 @@ const CTASection = () => {
         >
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 drop-shadow-lg">
-              Join Our Learning Journey
+              Start Your Scientific Journey
             </h2>
             <p className="text-white/90 text-xl leading-relaxed mb-8 drop-shadow">
-              Subscribe to Sci-Likha Podcast and embark on an educational
-              adventure through the fascinating world of biology. New episodes
-              every week!
+              Join Sci-Likha Podcast and explore evolutionary biology through 
+              innovative learning approaches. Discover how scientific processes 
+              define life with our four educational episodes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -70,11 +70,11 @@ const CTASection = () => {
         >
           <div className="max-w-2xl mx-auto text-center">
             <h3 className="text-2xl font-bold text-white mb-4 drop-shadow">
-              Stay Connected
+              Stay Updated
             </h3>
             <p className="text-white/90 mb-6 drop-shadow">
-              Subscribe to our newsletter for episode updates, biology facts,
-              and exclusive content.
+              Subscribe to receive notifications about new episodes, evolutionary 
+              biology insights, and exclusive educational content.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <input
@@ -90,7 +90,7 @@ const CTASection = () => {
               </Button>
             </div>
             <p className="text-xs text-white/70 mt-4 drop-shadow">
-              Join thousands of subscribers. No spam, unsubscribe anytime.
+              Join our community of learners. No spam, unsubscribe anytime.
             </p>
           </div>
         </div>

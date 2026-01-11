@@ -1,21 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 import { Headphones, BookOpen, Share2 } from "lucide-react";
-import { crud } from "../../../../../api/index";
-import { AxiosError } from "axios";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/components/ui/accordion";
 
 const CTASection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -23,39 +8,38 @@ const CTASection = () => {
   const [email, setEmail] = useState("");
   const [openModal, setOpenModal] = useState(false);
 
-  // 🧬 Catherine Episodes List
   const episodes = [
     {
       id: 1,
-      title: "EP1 - Selyula 101 — Overview of the Beginning of Life",
+      title: "EP1 - Ang Ebolusyon ng Anyong-Buhay sa Kasaysayan ng Mundo",
       description:
-        "Ang episode na ito ay ginawa upang mas maunawaan ninyo ang pinagmulan ng mga selula, kung paano nagsimula ang buhay, at kung sinu-sino ang mga siyentipikong nasa likod ng teoryang ito.",
+        "Sa episodyo na ito, ating mapapakinggan ang talakayan patungkol sa kasaysayan at sinaunang takbo ng buhay mula noon hanggang ngayon sa ating napakalawak at napakatagal na mundo.",
       details:
-        "Duration: 25 minutes | Release Date: October 1, 2025 | Host: Catherine",
+        "Duration: 25 minutes | Release Date: Enero 20, 2025",
     },
     {
       id: 2,
-      title: "EP2 - SelTalk — Parts and Functions of the Cell",
+      title: "EP2 - Ang Mekanismo ng Ebolusyon: Paghubog ng Buhay sa Bawat Nilalang",
       description:
-        "Sa episode na ito, ating aalamin ang iba’t ibang bahagi ng selula at ang kani-kaniyang mahahalagang tungkulin.",
+        "Sa episodyo na ito, ating mapapakinggan ang talakayan patungkol sa limang magkakaibang uri ng mekanismo ng ebolusyon.",
       details:
-        "Duration: 26 minutes | Release Date: October 8, 2025 | Host: Catherine",
+        "Duration: 26 minutes | Release Date: Enero 25, 2025",
     },
     {
       id: 3,
-      title: "EP3 - Microscope Diaries — Plasma Membrane and Animal Cell Parts",
+      title: "EP3 - Mga Bakas ng Pagbabago: Ang Ebolusyon ng Buhay Mula sa mga Ninuno",
       description:
-        "Sa episode na ito, pag-uusapan natin ang papel ng plasma membrane at ang mga pangunahing bahagi ng animal cell.",
+        "Sa episodyo na ito, ating mapapakinggan ang talakayan patungkol sa descent with modification at mga uri ng structures.",
       details:
-        "Duration: 28 minutes | Release Date: October 15, 2025 | Host: Catherine",
+        "Duration: 28 minutes | Release Date: Enero 30, 2025",
     },
     {
       id: 4,
-      title: "EP4 - Likas na Selyula — Cell Cycle and Cell Division",
+      title: "EP4 - Evolution 101: Ang Kasaysayan ng Ebolusyon",
       description:
-        "Ang episode na ito ay ginawa upang mas maunawaan ninyo ang pagkakasunod-sunod ng mga pangyayari sa loob ng isang selula na nauuwi sa paghahati nito.",
+        "Sa episodyo na ito, ating mapapakinggan ang talakayan patungkol sa fixity belief at mga siyentipiko na nasa likod ng mga teoryang ito.",
       details:
-        "Duration: 30 minutes | Release Date: October 22, 2025 | Host: Catherine",
+        "Duration: 30 minutes | Release Date: Pebrero 5, 2025",
     },
   ];
 
@@ -72,20 +56,10 @@ const CTASection = () => {
     };
   }, []);
 
-  const handleSubscribe = async () => {
-    if (!email) return alert("Please enter your email.");
-    try {
-      await crud.create("/v1/registered-emails/register", { email });
-      localStorage.setItem("subscribedEmail", email);
-      alert("Subscribed successfully!");
-      setEmail("");
-    } catch (err) {
-      const axiosError = err as AxiosError<{ message?: string }>;
-      alert(
-        axiosError.response?.data.message ||
-          "Something went wrong. Please try again."
-      );
-    }
+  const handleSubscribe = () => {
+    if (!email) return alert("Mangyaring ilagay ang iyong email.");
+    alert("Nag-subscribe ka na!");
+    setEmail("");
   };
 
   return (
@@ -102,12 +76,12 @@ const CTASection = () => {
         >
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-              Stay Updated with Sci-Likha
+              Manatiling Updated sa Sci-Likha
             </h2>
             <p className="text-white/90 text-lg mb-8 leading-relaxed drop-shadow">
-              Subscribe to our podcast and never miss an episode. Get notified
-              when we release new content exploring the wonders of science,
-              nature, and innovation.
+              Mag-subscribe sa aming podcast at huwag palampasin ang mga bagong 
+              episodes. Makatanggap ng notification kapag may bago kaming content 
+              tungkol sa ebolusyon, agham, at kalikasan.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -116,7 +90,7 @@ const CTASection = () => {
                 style={{ backgroundColor: "#163409" }}
               >
                 <Headphones className="w-5 h-5 mr-2" />
-                Subscribe Now
+                Mag-subscribe Ngayon
               </Button>
               <Button
                 size="lg"
@@ -124,7 +98,7 @@ const CTASection = () => {
                 className="bg-white/20 backdrop-blur-sm hover:bg-white/30 border-2 border-white/40 text-white px-8 py-6 rounded-md shadow-lg text-base hover:scale-105 transition-transform duration-300"
               >
                 <BookOpen className="w-5 h-5 mr-2" />
-                View All Episodes
+                Tingnan ang Lahat ng Episodes
               </Button>
             </div>
           </div>
@@ -139,18 +113,18 @@ const CTASection = () => {
           {[
             {
               icon: Headphones,
-              title: "Subscribe",
-              description: "Get notified about new episodes",
+              title: "Mag-subscribe",
+              description: "Makatanggap ng notification sa bagong episodes",
             },
             {
               icon: Share2,
-              title: "Share",
-              description: "Spread the love of science",
+              title: "Ibahagi",
+              description: "Ikalat ang pagmamahal sa agham",
             },
             {
               icon: BookOpen,
-              title: "Learn",
-              description: "Expand your knowledge daily",
+              title: "Matuto",
+              description: "Palawakin ang iyong kaalaman araw-araw",
             },
           ].map((action, index) => (
             <div
@@ -176,16 +150,16 @@ const CTASection = () => {
         >
           <div className="max-w-2xl mx-auto text-center">
             <h3 className="text-2xl font-bold text-white mb-4 drop-shadow">
-              Join Our Newsletter
+              Sumali sa Aming Newsletter
             </h3>
             <p className="text-white/80 mb-6 drop-shadow">
-              Get weekly updates, episode highlights, and exclusive content
-              delivered to your inbox.
+              Makatanggap ng lingguhang updates, episode highlights, at eksklusibong 
+              content sa iyong inbox.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="email"
-                placeholder="Enter your email address"
+                placeholder="Ilagay ang iyong email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 px-4 py-3 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50"
@@ -195,60 +169,59 @@ const CTASection = () => {
                 className="text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition-transform duration-300 whitespace-nowrap"
                 style={{ backgroundColor: "#163409" }}
               >
-                Subscribe
+                Mag-subscribe
               </Button>
             </div>
             <p className="text-xs text-white/70 mt-3 drop-shadow">
-              We respect your privacy. Unsubscribe at any time.
+              Ginagalang namin ang iyong privacy. Unsubscribe anytime.
             </p>
           </div>
         </div>
       </div>
 
-      {/* 🎧 Enhanced Modal for All Episodes */}
-      <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-4xl bg-gradient-to-b from-[#163409] to-[#0f2307] text-white border border-white/20 rounded-2xl shadow-2xl p-8">
-          <DialogHeader className="text-center">
-            <DialogTitle className="text-3xl font-bold text-white mb-2 tracking-wide">
-              All Episodes
-            </DialogTitle>
-            <DialogDescription className="text-white/70 text-base max-w-2xl mx-auto">
-              Explore Catherine’s complete Sci-Likha podcast series and dive
-              deeper into the wonders of cell biology.
-            </DialogDescription>
-          </DialogHeader>
+      {/* Modal for Episodes */}
+      {openModal && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-[9999] p-4">
+          <div className="bg-gradient-to-b from-[#163409] to-[#0f2307] text-white border border-white/20 rounded-2xl shadow-2xl p-8 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-white mb-2 tracking-wide">
+                Lahat ng Episodes
+              </h2>
+              <p className="text-white/70 text-base max-w-2xl mx-auto">
+                Tuklasin ang kumpletong Sci-Likha podcast series at sumisid sa 
+                kahanga-hangang mundo ng ebolusyon.
+              </p>
+            </div>
 
-          <div className="mt-6 max-h-[60vh] overflow-y-auto pr-2">
-            <Accordion
-              type="single"
-              collapsible
-              className="space-y-3 [&>div]:bg-white/5 [&>div]:backdrop-blur-sm [&>div]:border-white/20 [&>div]:rounded-xl"
-            >
+            <div className="space-y-4">
               {episodes.map((ep) => (
-                <AccordionItem key={ep.id} value={`item-${ep.id}`}>
-                  <AccordionTrigger className="text-left text-lg font-semibold text-white px-5 py-3 hover:bg-white/10 rounded-t-xl transition-colors">
+                <div
+                  key={ep.id}
+                  className="bg-white/5 backdrop-blur-sm border border-white/20 rounded-xl p-5"
+                >
+                  <h3 className="text-lg font-semibold text-white mb-2">
                     {ep.title}
-                  </AccordionTrigger>
-                  <AccordionContent className="px-5 pb-5 text-white/80 leading-relaxed">
-                    <p className="mb-2 text-base">{ep.description}</p>
-                    <p className="text-sm italic text-white/60">{ep.details}</p>
-                  </AccordionContent>
-                </AccordionItem>
+                  </h3>
+                  <p className="text-white/80 text-sm mb-2 leading-relaxed">
+                    {ep.description}
+                  </p>
+                  <p className="text-white/60 text-xs italic">{ep.details}</p>
+                </div>
               ))}
-            </Accordion>
-          </div>
+            </div>
 
-          <div className="flex justify-end mt-6">
-            <Button
-              onClick={() => setOpenModal(false)}
-              className="text-white px-6 py-2 rounded-lg hover:scale-105 transition-transform duration-300 shadow-md"
-              style={{ backgroundColor: "#1b4411" }}
-            >
-              Close
-            </Button>
+            <div className="flex justify-end mt-6">
+              <Button
+                onClick={() => setOpenModal(false)}
+                className="text-white px-6 py-2 rounded-lg hover:scale-105 transition-transform duration-300 shadow-md"
+                style={{ backgroundColor: "#1b4411" }}
+              >
+                Isara
+              </Button>
+            </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </section>
   );
 };
