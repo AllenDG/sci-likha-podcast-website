@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-
 const SecondContentSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -38,17 +37,18 @@ const SecondContentSection = () => {
             }`}
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">
-              Energy and Life
+              Creative Storytelling Meets Science
             </h2>
             <p className="text-white/90 mb-4 leading-relaxed drop-shadow">
-              All living things require energy and nutrients to survive.
-              Producers make their own food through photosynthesis, while
-              consumers obtain energy by feeding on other organisms.
+              Focused on evolutionary biology and life sciences, the podcast 
+              communicates scientific ideas through creative storytelling, 
+              imaginative discussions, and explorations.
             </p>
             <p className="text-white/90 mb-6 leading-relaxed drop-shadow">
-              Through metabolism, organisms sense and respond to changes,
-              maintain homeostasis, grow, develop, and reproduce—passing DNA to
-              offspring and contributing to life's incredible diversity.
+              These approaches promote critical thinking, encourage scientific 
+              inquiry, and inspire students to develop a deeper appreciation 
+              for science and the natural world. Each episode is designed to 
+              make complex biological concepts clear and engaging.
             </p>
             <Button
               variant="default"
@@ -57,11 +57,11 @@ const SecondContentSection = () => {
                 backgroundColor: "#163409",
               }}
             >
-              Learn More
+              Watch Episodes
             </Button>
           </div>
 
-          {/* Right Side - Parallax Image */}
+          {/* Right Side - Placeholder for Image */}
           <div
             className={`order-2 md:order-2 transition-all duration-1000 delay-300 ${
               isVisible
@@ -71,7 +71,7 @@ const SecondContentSection = () => {
           >
             <Card className="overflow-hidden border-none bg-transparent">
               <CardContent className="p-0">
-               
+                {/* Image placeholder */}
               </CardContent>
             </Card>
           </div>

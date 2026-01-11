@@ -1,30 +1,35 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ep1Info from '@/assets/images/SCI-LIKHA-INFO-EP-1.jpg';
+import ep2Info from '@/assets/images/SCI-LIKHA-INFO-EP-2.jpg';
+import ep3Info from '@/assets/images/SCI-LIKHA-INFO-EP-3.jpg';
+import ep4Info from '@/assets/images/SCI-LIKHA-INFO-EP-4.jpg';
 
 const GallerySection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Sample gallery images - replace with your actual images
   const galleryImages = [
     {
       id: 1,
-      src: '/assets/images/gallery-1.jpg',
-      alt: 'Gallery Image 1',
-      title: 'Episode Highlight 1'
+      title: 'Ang Ebolusyon ng Anyong-Buhay sa Kasaysayan ng Mundo',
+      image: ep1Info
     },
     {
       id: 2,
-      src: '/assets/images/gallery-2.jpg',
-      alt: 'Gallery Image 2',
-      title: 'Episode Highlight 2'
+      title: 'Ang Mekanismo ng Ebolusyon: Paghubog ng Buhay sa Bawat Nilalang',
+      image: ep2Info
     },
     {
       id: 3,
-      src: '/assets/images/gallery-3.jpg',
-      alt: 'Gallery Image 3',
-      title: 'Episode Highlight 3'
+      title: 'Mga Bakas ng Pagbabago: Ang Ebolusyon ng Buhay Mula sa mga Ninuno',
+      image: ep3Info
+    },
+    {
+      id: 4,
+      title: 'Evolution 101: Ang Kasaysayan ng Ebolusyon—Kung Saan ang Ideya ay Naging Buhay',
+      image: ep4Info
     }
   ];
 
@@ -41,7 +46,6 @@ const GallerySection = () => {
     setIsAutoPlaying(false);
   };
 
-  // Auto-play carousel
   useEffect(() => {
     if (!isAutoPlaying) return;
 
@@ -57,7 +61,7 @@ const GallerySection = () => {
     <section className="relative py-16 px-4 text-white overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 text-center drop-shadow-lg">
-          Sci-Likha Episodes
+          Mga Episodes ng Sci-Likha
         </h2>
 
         {/* Carousel Container */}
@@ -69,24 +73,22 @@ const GallerySection = () => {
           >
             {galleryImages.map((image) => (
               <div key={image.id} className="min-w-full">
-                <div className="aspect-video bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <div className="w-32 h-32 mx-auto bg-white/30 backdrop-blur-sm rounded-lg flex items-center justify-center mb-4 shadow-xl border border-white/30">
-                      <svg 
-                        className="w-16 h-16 text-white" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                      >
-                        <path 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round" 
-                          strokeWidth={2} 
-                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" 
-                        />
-                      </svg>
+                <div className="aspect-video relative overflow-hidden">
+                  <img
+                    src={image.image}
+                    alt={image.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Overlay with title */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex items-end justify-center p-8">
+                    <div className="text-center">
+                      <h3 className="text-3xl font-bold text-white drop-shadow-lg max-w-3xl mx-auto">
+                        {image.title}
+                      </h3>
+                      <p className="text-white/90 text-lg mt-2 drop-shadow-md">
+                        Episode {image.id}
+                      </p>
                     </div>
-                    <h3 className="text-2xl font-bold text-white drop-shadow-lg">{image.title}</h3>
                   </div>
                 </div>
               </div>

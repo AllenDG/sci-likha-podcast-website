@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
-
 const FirstContentSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -28,7 +27,7 @@ const FirstContentSection = () => {
     >
       <div className="relative max-w-6xl mx-auto">
         <div className="grid md:grid-cols-2 gap-8 items-center">
-          {/* Left Side - Parallax Image */}
+          {/* Left Side - Placeholder for Image */}
           <div
             className={`order-2 md:order-1 transition-all duration-1000 delay-100 ${
               isVisible
@@ -36,7 +35,7 @@ const FirstContentSection = () => {
                 : "opacity-0 -translate-x-10"
             }`}
           >
-            
+            {/* Image placeholder */}
           </div>
 
           {/* Right Side - Text Content */}
@@ -48,19 +47,19 @@ const FirstContentSection = () => {
             }`}
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">
-              The Beginning of Life
+              Educational Platform for STEM Students
             </h2>
             <p className="text-white/90 mb-4 leading-relaxed drop-shadow">
-              Every living thing begins with a single unit — the <b>cell</b>. It
-              is the foundation of life, responsible for growth, energy, and
-              reproduction. Understanding how cells work helps us grasp how life
-              itself evolved and continues to thrive.
+              The Sci-Likha Podcast is an educational platform designed to enhance 
+              students' understanding of biology, with particular focus on learners 
+              in the STEM strand. It serves as a reliable academic guide that supports 
+              and simplifies the study of complex biological concepts.
             </p>
             <p className="text-white/90 mb-6 leading-relaxed drop-shadow">
-              In <em>Sci-Likha</em>, we dive deep into these microscopic worlds —
-              from discovering how cells function, to exploring the processes
-              that drive their division, communication, and adaptation across
-              living organisms.
+              Sci-Likha Podcast delivers innovative and effective learning approaches 
+              that ensure biology is taught in an updated, interactive, and efficient 
+              manner. Through well-structured content and engaging formats, the platform 
+              makes scientific learning more accessible and meaningful for students.
             </p>
             <Button
               variant="default"
@@ -69,7 +68,7 @@ const FirstContentSection = () => {
                 backgroundColor: "#163409",
               }}
             >
-              Explore the Episodes
+              Explore Our Content
             </Button>
           </div>
         </div>

@@ -41,19 +41,20 @@ const CTA = () => {
         >
           <div className="max-w-2xl">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-              Join the Science Community
+              Sumali sa Aming Komunidad ng Agham
             </h2>
             <p className="text-white/90 mb-8 leading-relaxed drop-shadow">
-              Explore the wonders of biology through engaging podcasts. From
-              cellular biology to ecosystems, discover how life works at every
-              level.
+              Tuklasin ang kahanga-hangang mundo ng ebolusyon sa pamamagitan ng 
+              mga engaging na podcast episodes. Mula sa mekanismo ng natural selection 
+              hanggang sa kasaysayan ng mga ideya, alamin kung paano humubog ang buhay 
+              sa ating planeta.
             </p>
             <Button
               size="lg"
               className="text-white px-8 py-6 rounded-md shadow-lg text-base hover:scale-105 transition-transform duration-300"
               style={{ backgroundColor: "#163409" }}
             >
-              Learn More
+              Makinig Ngayon
             </Button>
           </div>
         </div>

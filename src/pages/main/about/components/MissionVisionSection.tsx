@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Dna, Microscope, Atom, Leaf } from "lucide-react";
+import { BookOpen, Search, Bell, FileText } from "lucide-react";
 
 const MissionVisionSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -19,30 +19,30 @@ const MissionVisionSection = () => {
     };
   }, []);
 
-  const topics = [
+  const features = [
     {
-      icon: Dna,
-      title: "Selyula 101 — Overview of the Beginning of Life",
+      icon: BookOpen,
+      title: "Four Educational Episodes",
       description:
-        "Alamin ang pinagmulan ng mga selula at kung paano nagsimula ang buhay. Tuklasin din ang mga siyentipikong nagbigay-linaw sa mga teoryang bumuo sa ating pag-unawa tungkol sa buhay.",
+        "The Sci-Likha Podcast features four educational episodes that focus on key concepts in evolution. Each episode presents well-structured discussions designed to explain complex biological ideas clearly and engagingly.",
     },
     {
-      icon: Microscope,
-      title: "SelTalk — Parts and Functions of the Cell",
+      icon: Bell,
+      title: "Subscribe for Updates",
       description:
-        "Talakayin ang iba't ibang bahagi ng selula at ang kani-kanilang mahahalagang tungkulin sa pagpapanatili ng buhay at kalusugan ng mga organismo.",
+        "The website allows users to subscribe to the Sci-Likha Podcast channel to receive notifications whenever new episodes are released. This ensures listeners remain updated with the latest educational content.",
     },
     {
-      icon: Atom,
-      title: "Microscope Diaries — Plasma Membrane and Animal Cell Parts",
+      icon: Search,
+      title: "Easy Episode Discovery",
       description:
-        "Suriin ang papel ng plasma membrane bilang tagapangalaga ng selula at tuklasin ang mga pangunahing bahagi ng animal cell na gumagawa ng bawat proseso ng buhay.",
+        "The Content Page provides episode highlights, helping users easily identify topics they are interested in. A built-in search bar enables users to quickly find specific episodes they wish to watch or listen to.",
     },
     {
-      icon: Leaf,
-      title: "Likas na Selyula — Cell Cycle and Cell Division",
+      icon: FileText,
+      title: "Episode Overviews",
       description:
-        "Unawain ang pagkakasunod-sunod ng mga pangyayari sa loob ng isang selula na nagreresulta sa paghahati nito—isang mahalagang proseso para sa paglaki at pagpapanibago ng buhay.",
+        "Each episode includes a brief overview that explains the topic and flow of the discussion, allowing users to prepare before viewing. This organized approach helps students explore biology in a guided way.",
     },
   ];
 
@@ -59,18 +59,17 @@ const MissionVisionSection = () => {
           }`}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">
-            Episodes Overview
+            Platform Features
           </h2>
           <p className="text-xl text-white/90 max-w-3xl mx-auto drop-shadow">
-            Tuklasin ang apat na kapana-panabik na episodes ng Sci-Likha na
-            naglalayong palawakin ang iyong pag-unawa sa pinagmulan, istruktura,
-            at siklo ng buhay ng mga selula.
+            Discover how Sci-Likha makes evolutionary biology accessible and 
+            engaging through structured content and user-friendly features.
           </p>
         </div>
 
-        {/* Topics Grid */}
+        {/* Features Grid */}
         <div className="grid md:grid-cols-2 gap-8">
-          {topics.map((topic, index) => (
+          {features.map((feature, index) => (
             <div
               key={index}
               className={`group transition-all duration-1000 ${
@@ -82,13 +81,13 @@ const MissionVisionSection = () => {
             >
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:bg-white/15 transition-all duration-300 hover:-translate-y-2 h-full border border-white/20">
                 <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                  <topic.icon className="w-8 h-8 text-white" />
+                  <feature.icon className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-3 drop-shadow">
-                  {topic.title}
+                  {feature.title}
                 </h3>
                 <p className="text-white/90 leading-relaxed drop-shadow">
-                  {topic.description}
+                  {feature.description}
                 </p>
               </div>
             </div>
