@@ -91,6 +91,7 @@ const LatestVideo = () => {
 
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
@@ -98,11 +99,15 @@ const LatestVideo = () => {
   const handleCardClick = (episode: EpisodeData) => {
     setSelectedEpisode(episode);
     setShowModal(true);
+    // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {
     setShowModal(false);
     setSelectedEpisode(null);
+    // Re-enable background scrolling
+    document.body.style.overflow = 'unset';
   };
 
   const handlePlayRedirect = () => {
