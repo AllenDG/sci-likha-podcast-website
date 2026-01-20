@@ -97,9 +97,9 @@ const AddContentModal = ({
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+      <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm md:max-w-3xl max-h-[85vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-100 px-8 py-6 flex items-center justify-between rounded-t-3xl z-10">
+        <div className="sticky top-0 bg-white border-b border-gray-100 px-6 md:px-8 py-4 md:py-6 flex items-center justify-between rounded-t-3xl z-10">
           <h2 className="text-2xl font-bold text-gray-900">
             {step === "select"
               ? "Add New Content"
@@ -114,12 +114,12 @@ const AddContentModal = ({
         </div>
 
         {/* Content */}
-        <div className="p-8">
+        <div className="p-6 md:p-8">
           {step === "select" ? (
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <button
                 onClick={() => handleTypeSelect("gallery")}
-                className="group p-10 border-2 border-gray-200 rounded-3xl hover:border-purple-500 hover:bg-purple-50 transition-all duration-300"
+                className="group p-6 md:p-10 border-2 border-gray-200 rounded-3xl hover:border-purple-500 hover:bg-purple-50 transition-all duration-300"
               >
                 <div className="flex flex-col items-center gap-4">
                   <div className="w-24 h-24 bg-purple-100 group-hover:bg-purple-200 rounded-3xl flex items-center justify-center transition-colors">
@@ -138,7 +138,7 @@ const AddContentModal = ({
 
               <button
                 onClick={() => handleTypeSelect("episode")}
-                className="group p-10 border-2 border-gray-200 rounded-3xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-300"
+                className="group p-6 md:p-10 border-2 border-gray-200 rounded-3xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-300"
               >
                 <div className="flex flex-col items-center gap-4">
                   <div className="w-24 h-24 bg-blue-100 group-hover:bg-blue-200 rounded-3xl flex items-center justify-center transition-colors">
@@ -174,7 +174,7 @@ const AddContentModal = ({
                 />
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-900 mb-3">
                     Category <span className="text-red-500">*</span>
@@ -287,17 +287,17 @@ const AddContentModal = ({
               )}
 
               {/* Action Buttons */}
-              <div className="flex gap-4 pt-6">
+              <div className="flex flex-col md:flex-row gap-3 md:gap-4 pt-4 md:pt-6">
                 <Button
                   type="button"
                   onClick={() => setStep("select")}
-                  className="flex-1 py-4 border-2 border-gray-300 text-gray-700 hover:bg-gray-50 rounded-xl font-medium"
+                  className="flex-1 py-3 md:py-4 border-2 border-gray-300 text-gray-700 hover:bg-gray-50 rounded-xl font-medium text-sm md:text-base"
                 >
                   Back
                 </Button>
                 <Button
                   type="submit"
-                  className="flex-1 py-4 text-white font-semibold hover:opacity-90 transition-opacity rounded-xl"
+                  className="flex-1 py-3 md:py-4 text-white font-semibold hover:opacity-90 transition-opacity rounded-xl text-sm md:text-base"
                   style={{ backgroundColor: "#163409" }}
                 >
                   Create {contentType === "episode" ? "Episode" : "Gallery"}

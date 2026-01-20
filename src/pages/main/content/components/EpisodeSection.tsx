@@ -366,9 +366,9 @@ const EpisodeSection = () => {
 
       {/* Modal Player */}
       {showModal && nowPlaying && !minimized && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-[9999] p-4">
-          <div className={`bg-gradient-to-br from-white/15 to-white/5 border border-white/30 backdrop-blur-xl rounded-3xl text-white relative shadow-2xl ${
-            isMobile ? 'w-full max-w-sm p-6' : 'p-8 w-full max-w-2xl'
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-[9999] p-4 overflow-y-auto">
+          <div className={`bg-gradient-to-br from-white/15 to-white/5 border border-white/30 backdrop-blur-xl rounded-3xl text-white relative shadow-2xl my-auto ${
+            isMobile ? 'w-full max-w-sm p-4 max-h-[90vh] overflow-y-auto' : 'p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto'
           }`}>
             <div className="absolute top-4 right-4 flex gap-2">
               <button
@@ -405,12 +405,12 @@ const EpisodeSection = () => {
               </div>
             </div>
 
-            <h3 className={`font-bold mb-2 leading-tight ${
-              isMobile ? 'text-lg' : 'text-2xl'
+            <h3 className={`font-bold mb-2 leading-tight line-clamp-3 ${
+              isMobile ? 'text-base' : 'text-2xl'
             }`}>
               {nowPlaying.title}
             </h3>
-            <p className={`text-white/70 mb-4 leading-relaxed ${
+            <p className={`text-white/70 mb-3 md:mb-4 leading-relaxed line-clamp-4 ${
               isMobile ? 'text-xs' : 'text-sm'
             }`}>
               {nowPlaying.description}
@@ -423,7 +423,7 @@ const EpisodeSection = () => {
             )}
 
             {/* Progress bar */}
-            <div className="mb-4">
+            <div className="mb-3 md:mb-4">
               <div className={`flex items-center justify-between text-white/60 mb-1 ${
                 isMobile ? 'text-xs' : 'text-xs'
               }`}>
@@ -445,7 +445,7 @@ const EpisodeSection = () => {
               </div>
             </div>
 
-            <div className={`flex items-center gap-4 mb-4 ${
+            <div className={`flex items-center gap-3 md:gap-4 mb-3 md:mb-4 ${
               isMobile ? 'justify-center' : 'justify-between'
             }`}>
               <div className="flex items-center gap-3">
@@ -489,7 +489,7 @@ const EpisodeSection = () => {
             {isMobile && (
               <Button
                 onClick={() => handleAssessment(nowPlaying)}
-                className="w-full bg-[#163409] hover:bg-[#1b3e0d] text-white py-3 shadow-lg transition-all duration-300"
+                className="w-full bg-[#163409] hover:bg-[#1b3e0d] text-white py-2 md:py-3 shadow-lg transition-all duration-300 text-sm md:text-base"
               >
                 <ExternalLink size={16} className="mr-2" /> Kumuha ng Assessment
               </Button>

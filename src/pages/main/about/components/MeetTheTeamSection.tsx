@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
-import ep1Thumbnail from "@/assets/images/sci-likha-ep-1.jpg";
-import ep2Thumbnail from "@/assets/images/sci-likha-ep-2.jpg";
-import ep3Thumbnail from "@/assets/images/sci-likha-ep-3.jpg";
-import ep4Thumbnail from "@/assets/images/sci-likha-ep-4.jpg";
+import catherine from "@/assets/images/d446e5d1-a51d-4782-a36a-4601493beec7.jpg";
+import cjay from "@/assets/images/2b66ade8-2655-44c2-9d3d-7337b519f496.jpg";
+import ram from "@/assets/images/305772a6-ef88-4052-af1a-a009b95d1ec6.jpg";
+import venice from "@/assets/images/9d7d9d5c-3510-4245-860e-83f0e9d9140a.jpg";
 
 const MeetTheTeamSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -27,22 +27,22 @@ const MeetTheTeamSection = () => {
     {
       name: "Catherine Castillano",
       role: "Lead Researcher & Host",
-      image: ep1Thumbnail,
+      image: catherine,
     },
     {
       name: "Cjay Sarmiento",
       role: "Host",
-      image: ep2Thumbnail,
+      image: cjay,
     },
     {
       name: "Ramm Angelo Poblete",
       role: "Editor & Host",
-      image: ep3Thumbnail,
+      image: ram,
     },
     {
       name: "Venice Lajato",
       role: "Technical Producer & Host",
-      image: ep4Thumbnail,
+      image: venice,
     },
   ];
 
